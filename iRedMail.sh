@@ -92,12 +92,9 @@ export DOMAIN_ADMIN_EMAIL="${DOMAIN_ADMIN_NAME}@${FIRST_DOMAIN}"
 . ${CONF_DIR}/mlmmj
 . ${CONF_DIR}/amavisd
 . ${CONF_DIR}/iredapd
-. ${CONF_DIR}/memcached
-. ${CONF_DIR}/sogo
 . ${CONF_DIR}/clamav
 . ${CONF_DIR}/spamassassin
 . ${CONF_DIR}/roundcube
-. ${CONF_DIR}/netdata
 . ${CONF_DIR}/fail2ban
 . ${CONF_DIR}/iredadmin
 . ${CONF_DIR}/logwatch
@@ -127,10 +124,8 @@ fi
 . ${FUNCTIONS_DIR}/clamav.sh
 . ${FUNCTIONS_DIR}/spamassassin.sh
 . ${FUNCTIONS_DIR}/roundcubemail.sh
-. ${FUNCTIONS_DIR}/sogo.sh
 . ${FUNCTIONS_DIR}/fail2ban.sh
 . ${FUNCTIONS_DIR}/iredadmin.sh
-. ${FUNCTIONS_DIR}/netdata.sh
 . ${FUNCTIONS_DIR}/optional_components.sh
 . ${FUNCTIONS_DIR}/cleanup.sh
 

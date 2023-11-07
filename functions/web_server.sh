@@ -34,8 +34,6 @@ EOF
     if [ ! -e ${HTTPD_DOCUMENTROOT}/index.html ]; then
         if [ X"${USE_ROUNDCUBE}" == X'YES' ]; then
             echo '<html><head><meta HTTP-EQUIV="REFRESH" content="0; url=/mail/"></head></html>' > ${HTTPD_DOCUMENTROOT}/index.html
-        elif [ X"${USE_SOGO}" == X'YES' ]; then
-            echo '<html><head><meta HTTP-EQUIV="REFRESH" content="0; url=/SOGo/"></head></html>' > ${HTTPD_DOCUMENTROOT}/index.html
         fi
     fi
 

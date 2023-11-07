@@ -243,10 +243,6 @@ enabledService: senderbcc
 enabledService: recipientbcc
 enabledService: shadowaddress
 enabledService: displayedInGlobalAddressBook
-enabledService: sogo
-enabledService: sogowebmail
-enabledService: sogocalendar
-enabledService: sogoactivesync
 EOF
 }
 

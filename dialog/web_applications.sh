@@ -25,18 +25,6 @@
 # ---------------------------------------------------------------
 if [ X"${DISABLE_WEB_SERVER}" != X'YES' ]; then
     export DIALOG_SELECTABLE_ROUNDCUBE='YES'
-    export DIALOG_SELECTABLE_NETDATA='YES'
-    export DIALOG_SELECTABLE_SOGO='YES'
-
-    # SOGo team doesn't offer binary packages for arm platform.
-    if [[ X"${OS_ARCH}" != X'i386' ]] && [[ X"${OS_ARCH}" != X'x86_64' ]]; then
-        export DIALOG_SELECTABLE_SOGO='NO'
-    fi
-
-    if [ X"${DISTRO}" == X'OPENBSD' ]; then
-        # OpenBSD doesn't have 'libuuid' which required by netdata
-        export DIALOG_SELECTABLE_NETDATA='NO'
-    fi
 fi
 
 # iRedAdmin
@@ -47,14 +35,4 @@ fi
 # Roundcube
 if [ X"${DIALOG_SELECTABLE_ROUNDCUBE}" == X'YES' ]; then
     LIST_OF_OPTIONAL_COMPONENTS="${LIST_OF_OPTIONAL_COMPONENTS} Roundcubemail Fast_and_lightweight_webmail on"
-fi
-
-# SOGo
-if [ X"${DIALOG_SELECTABLE_SOGO}" == X'YES' ]; then
-    LIST_OF_OPTIONAL_COMPONENTS="${LIST_OF_OPTIONAL_COMPONENTS} SOGo Webmail,_Calendar,_Address_book,_ActiveSync off"
-fi
-
-# netdata
-if [ X"${DIALOG_SELECTABLE_NETDATA}" == X'YES' ]; then
-    LIST_OF_OPTIONAL_COMPONENTS="${LIST_OF_OPTIONAL_COMPONENTS} netdata Awesome_system_monitor on"
 fi

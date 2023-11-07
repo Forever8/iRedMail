@@ -103,16 +103,6 @@ add_user_iredapd()
     echo 'export status_add_user_iredapd="DONE"' >> ${STATUS_FILE}
 }
 
-add_user_netdata()
-{
-    add_sys_user_group \
-        ${SYS_USER_NETDATA} \
-        ${SYS_GROUP_NETDATA} \
-        ${SYS_USER_NETDATA_UID} \
-        ${SYS_GROUP_NETDATA_GID}
-
-    echo 'export status_add_user_netdata="DONE"' >> ${STATUS_FILE}
-}
 
 
 add_required_users()
@@ -123,6 +113,4 @@ add_required_users()
     check_status_before_run add_user_mlmmj
     check_status_before_run add_user_iredadmin
     check_status_before_run add_user_iredapd
-
-    [ X"${USE_NETDATA}" == X'YES' ] && check_status_before_run add_user_netdata
 }

@@ -131,16 +131,6 @@ nginx_config()
     perl -pi -e 's#PH_IREDADMIN_BIND_ADDRESS#$ENV{IREDADMIN_BIND_ADDRESS}#g' ${NGINX_CONF_TMPL_DIR}/*.tmpl
     perl -pi -e 's#PH_IREDADMIN_LISTEN_PORT#$ENV{IREDADMIN_LISTEN_PORT}#g' ${NGINX_CONF_TMPL_DIR}/*.tmpl
 
-    # SOGo
-    perl -pi -e 's#PH_SOGO_BIND_ADDRESS#$ENV{SOGO_BIND_ADDRESS}#g' ${NGINX_CONF_TMPL_DIR}/*.tmpl
-    perl -pi -e 's#PH_SOGO_BIND_PORT#$ENV{SOGO_BIND_PORT}#g' ${NGINX_CONF_TMPL_DIR}/*.tmpl
-    perl -pi -e 's#PH_SOGO_GNUSTEP_DIR#$ENV{SOGO_GNUSTEP_DIR}#g' ${NGINX_CONF_TMPL_DIR}/*.tmpl
-    perl -pi -e 's#PH_SOGO_PROXY_TIMEOUT#$ENV{SOGO_PROXY_TIMEOUT}#g' ${NGINX_CONF_TMPL_DIR}/*.tmpl
-
-    # netdata
-    perl -pi -e 's#PH_NETDATA_HTTPD_AUTH_FILE#$ENV{NETDATA_HTTPD_AUTH_FILE}#g' ${NGINX_CONF_TMPL_DIR}/*.tmpl
-    perl -pi -e 's#PH_NETDATA_PORT#$ENV{NETDATA_PORT}#g' ${NGINX_CONF_TMPL_DIR}/*.tmpl
-
     # Adminer
     perl -pi -e 's#PH_HTTPD_SERVERROOT#$ENV{HTTPD_SERVERROOT}#g' ${NGINX_CONF_TMPL_DIR}/*.tmpl
 

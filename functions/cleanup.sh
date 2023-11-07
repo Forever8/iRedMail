@@ -36,7 +36,7 @@
 # Set cron file permission to 0600.
 cleanup_set_cron_file_permission()
 {
-    for f in ${CRON_FILE_ROOT} ${CRON_FILE_AMAVISD} ${CRON_FILE_SOGO}; do
+    for f in ${CRON_FILE_ROOT} ${CRON_FILE_AMAVISD}; do
         if [ -f ${f} ]; then
             ECHO_DEBUG "Set file permission to 0600: ${f}."
             chmod 0600 ${f}
@@ -244,8 +244,6 @@ cleanup_feedback()
     # Packages.
     pkgs=""
     [ X"${USE_ROUNDCUBE}" == X'YES' ]   && pkgs="${pkgs},roundcube"
-    [ X"${USE_SOGO}" == X'YES' ]        && pkgs="${pkgs},sogo"
-    [ X"${USE_NETDATA}" == X'YES' ]     && pkgs="${pkgs},netdata"
     [ X"${USE_FAIL2BAN}" == X'YES' ]    && pkgs="${pkgs},fail2ban"
     [ X"${USE_IREDADMIN}" == X'YES' ]   && pkgs="${pkgs},iredadmin"
     [ X"${WEB_SERVER}" == X'NGINX' ]    && pkgs="${pkgs},nginx"
@@ -312,7 +310,6 @@ Subject: How to configure your mail client applications (MUA)
 * SMTP service: port 587 over STARTTLS.
   If you need to support old mail clients with SMTP over SSL (port 465),
   please check our tutorial: https://docs.iredmail.org/enable.smtps.html
-* CalDAV and CardDAV server addresses: https://<server>/SOGo/dav/<full email address>
 
 For more details, please check detailed documentations:
 https://docs.iredmail.org/#mua
@@ -353,17 +350,6 @@ EOF
 EOF
     fi
 
-    if [ X"${USE_SOGO}" == X'YES' ]; then
-        cat <<EOF
-* - SOGo groupware: https://${HOSTNAME}/SOGo/
-EOF
-    fi
-
-    if [ X"${USE_NETDATA}" == X'YES' ]; then
-        cat <<EOF
-* - netdata (monitor): https://${HOSTNAME}/netdata/
-EOF
-    fi
     cat <<EOF
 *
 * - Web admin panel (iRedAdmin): https://${HOSTNAME}/iredadmin/

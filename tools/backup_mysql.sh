@@ -64,7 +64,7 @@ export MYSQL_DOT_MY_CNF='/root/.my.cnf'
 
 # Databases we should backup.
 # Multiple databases MUST be seperated by SPACE.
-export DATABASES='mysql vmail roundcubemail amavisd iredadmin sogo iredapd sa_bayes'
+export DATABASES='mysql vmail roundcubemail amavisd iredadmin iredapd sa_bayes'
 
 # Database character set for ALL databases.
 # Note: Currently, it doesn't support to specify character set for each databases.

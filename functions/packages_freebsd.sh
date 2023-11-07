@@ -63,7 +63,6 @@ install_all()
         archivers_p7zip \
         archivers_rar \
         converters_libiconv \
-        databases_memcached \
         databases_postgresql${PGSQL_VERSION}-client \
         databases_postgresql${PGSQL_VERSION}-contrib \
         databases_postgresql${PGSQL_VERSION}-server \
@@ -96,7 +95,6 @@ install_all()
         net_openldap${PREFERRED_OPENLDAP_VER}-server \
         net_openslp \
         net_py-ldap \
-        net-mgmt_netdata \
         security_amavisd-new \
         security_ca_root_nss \
         security_clamav \
@@ -106,8 +104,7 @@ install_all()
         security_p5-Authen-SASL \
         security_p5-IO-Socket-SSL \
         www_nginx \
-        www_uwsgi \
-        www_sogo; do
+        www_uwsgi; do
         mkdir -p /var/db/ports/${p} >> ${INSTALL_LOG} 2>&1
     done
 
@@ -955,40 +952,14 @@ OPTIONS_FILE_UNSET+=AVAHI
 OPTIONS_FILE_UNSET+=MDNS
 EOF
 
-    cat > /var/db/ports/databases_memcached/options <<EOF
-OPTIONS_FILE_UNSET+=DOCS
-OPTIONS_FILE_UNSET+=DTRACE
-OPTIONS_FILE_SET+=SASL
-EOF
-
     # LDAP support is required, otherwise www/sogo cannot be built.
     cat > /var/db/ports/devel_sope/options <<EOF
 OPTIONS_FILE_UNSET+=DOCS
 OPTIONS_FILE_UNSET+=EXAMPLES
 OPTIONS_FILE_SET+=LDAP
-OPTIONS_FILE_SET+=MEMCACHED
 OPTIONS_FILE_UNSET+=MYSQL
 OPTIONS_FILE_UNSET+=PGSQL
 EOF
-
-    cat > /var/db/ports/www_sogo/options <<EOF
-OPTIONS_FILE_UNSET+=DOCS
-OPTIONS_FILE_UNSET+=EXAMPLES
-OPTIONS_FILE_SET+=ACTIVESYNC
-EOF
-
-    # SOGo groupware.
-    if [ X"${USE_SOGO}" == X'YES' ]; then
-        ALL_PORTS="${ALL_PORTS} devel/sope www/sogo"
-
-        if [ X"${BACKEND}" == X'OPENLDAP' -o X"${BACKEND}" == X'MYSQL' ]; then
-            ${CMD_SED} -e 's#OPTIONS_FILE_UNSET+=MYSQL#OPTIONS_FILE_SET+=MYSQL#' /var/db/ports/devel_sope/options
-        elif [ X"${BACKEND}" == X'PGSQL' ]; then
-            ${CMD_SED} -e 's#OPTIONS_FILE_UNSET+=PGSQL#OPTIONS_FILE_SET+=PGSQL#' /var/db/ports/devel_sope/options
-        fi
-
-        rm -f /var/db/ports/devel_sope/options${SED_EXTENSION} &>/dev/null
-    fi
 
     # Python database interfaces
     if [ X"${BACKEND}" == X'OPENLDAP' ]; then
@@ -1035,21 +1006,6 @@ OPTIONS_FILE_UNSET+=DOCS
 OPTIONS_FILE_UNSET+=EXAMPLES
 OPTIONS_FILE_SET+=SASL
 EOF
-
-    cat > /var/db/ports/net-mgmt_netdata/options <<EOF
-OPTIONS_FILE_UNSET+=DOCS
-OPTIONS_FILE_UNSET+=EXAMPLES
-OPTIONS_FILE_UNSET+=CLOUD
-OPTIONS_FILE_UNSET+=CUPS
-OPTIONS_FILE_SET+=DBENGINE
-OPTIONS_FILE_UNSET+=FREEIPMI
-OPTIONS_FILE_SET+=GOPLUGIN
-OPTIONS_FILE_SET+=LTO
-EOF
-
-    if [ X"${USE_NETDATA}" == X'YES' ]; then
-        ALL_PORTS="${ALL_PORTS} net-mgmt/netdata"
-    fi
 
     # Misc
     ALL_PORTS="${ALL_PORTS} sysutils/logwatch"

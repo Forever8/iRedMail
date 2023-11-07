@@ -218,12 +218,6 @@ CREATE TABLE mailbox (
     "enableindexer-worker" INT2 NOT NULL DEFAULT 1,
     enablelmtp              INT2 NOT NULL DEFAULT 1,
     enabledsync             INT2 NOT NULL DEFAULT 1,
-    enablesogo              INT2 NOT NULL DEFAULT 1,
-
-    -- Character is required, not int.
-    enablesogowebmail       VARCHAR(1) NOT NULL DEFAULT 'y',
-    enablesogocalendar      VARCHAR(1) NOT NULL DEFAULT 'y',
-    enablesogoactivesync    VARCHAR(1) NOT NULL DEFAULT 'y',
 
     -- Must be set to NULL if it's not restricted.
     allow_nets TEXT DEFAULT NULL,
@@ -265,7 +259,6 @@ CREATE INDEX idx_mailbox_enabledoveadm ON mailbox (enabledoveadm);
 CREATE INDEX idx_mailbox_enablelib_storage ON mailbox ("enablelib-storage");
 CREATE INDEX idx_mailbox_enablequota_status ON mailbox ("enablequota-status");
 CREATE INDEX idx_mailbox_enableindexer_worker ON mailbox ("enableindexer-worker");
-CREATE INDEX idx_mailbox_enablesogo ON mailbox (enablesogo);
 CREATE INDEX idx_mailbox_passwordlastchange ON mailbox (passwordlastchange);
 CREATE INDEX idx_mailbox_expired ON mailbox (expired);
 CREATE INDEX idx_mailbox_active ON mailbox (active);

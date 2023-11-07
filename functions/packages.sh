@@ -360,76 +360,6 @@ install_all()
         fi
     fi
 
-    # SOGo
-    if [ X"${USE_SOGO}" == X'YES' ]; then
-        ENABLED_SERVICES="${ENABLED_SERVICES} ${SOGO_RC_SCRIPT_NAME} ${MEMCACHED_RC_SCRIPT_NAME}"
-
-        if [ X"${DISTRO}" == X'RHEL' ]; then
-            ALL_PKGS="${ALL_PKGS} sogo sogo-activesync libwbxml sogo-ealarms-notify sogo-tool"
-
-            [ X"${BACKEND}" == X'OPENLDAP' ] && ALL_PKGS="${ALL_PKGS} sope49-gdl1-mysql sope49-ldap"
-            [ X"${BACKEND}" == X'MYSQL' ] && ALL_PKGS="${ALL_PKGS} sope49-gdl1-mysql"
-            [ X"${BACKEND}" == X'PGSQL' ] && ALL_PKGS="${ALL_PKGS} sope49-gdl1-postgresql"
-
-            if [ X"${BACKEND}" == X'OPENLDAP' -o X"${BACKEND}" == X'MYSQL' ]; then
-                ALL_PKGS="${ALL_PKGS} mysql-libs"
-            fi
-
-            ${FETCH_CMD} \
-                -O /etc/pki/rpm-gpg/sogo-nightly \
-                https://keys.openpgp.org/vks/v1/by-fingerprint/74FFC6D72B925A34B5D356BDF8A27B36A6E2EAE9
-
-            if [ X"$?" != X'0' ]; then
-                ECHO_ERROR "Failed in import GPG key for SOGo yum repository."
-                ECHO_ERROR "Please try to import it manually with command below:"
-                ECHO_ERROR "wget -O /etc/pki/rpm-gpg/sogo-nightly https://keys.openpgp.org/vks/v1/by-fingerprint/74FFC6D72B925A34B5D356BDF8A27B36A6E2EAE9"
-            fi
-
-            # Copy yum repo file
-            ECHO_INFO "Add yum repo for SOGo: ${YUM_REPOS_DIR}/sogo.repo."
-            cat > ${YUM_REPOS_DIR}/sogo.repo <<EOF
-[SOGo]
-name=SOGo Groupware
-baseurl=${SOGO_PKG_MIRROR}/nightly/${SOGO_VERSION}/rhel/\$releasever/\$basearch
-enabled=1
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/sogo-nightly
-EOF
-
-        elif [ X"${DISTRO}" == X'DEBIAN' -o X"${DISTRO}" == X'UBUNTU' ]; then
-            ALL_PKGS="${ALL_PKGS} memcached sogo sogo-activesync"
-
-            [ X"${BACKEND}" == X'OPENLDAP' ] && ALL_PKGS="${ALL_PKGS} sope4.9-gdl1-mysql"
-            [ X"${BACKEND}" == X'MYSQL' ] && ALL_PKGS="${ALL_PKGS} sope4.9-gdl1-mysql"
-            [ X"${BACKEND}" == X'PGSQL' ] && ALL_PKGS="${ALL_PKGS} sope4.9-gdl1-postgresql"
-
-            ECHO_INFO "Add apt repo for SOGo: ${SOGO_PKG_MIRROR}"
-            if [ X"${DISTRO}" == X'DEBIAN' ]; then
-                echo "deb ${SOGO_PKG_MIRROR}/nightly/${SOGO_VERSION}/debian ${DISTRO_CODENAME} ${DISTRO_CODENAME}" > /etc/apt/sources.list.d/sogo-nightly.list
-            elif [ X"${DISTRO}" == X'UBUNTU' ]; then
-                echo "deb ${SOGO_PKG_MIRROR}/nightly/${SOGO_VERSION}/ubuntu ${DISTRO_CODENAME} ${DISTRO_CODENAME}" > /etc/apt/sources.list.d/sogo-nightly.list
-            fi
-
-            ECHO_DEBUG "Add GPG key for SOGo apt repo."
-            wget -q -O /tmp/sogo-nightly "https://keys.openpgp.org/vks/v1/by-fingerprint/74FFC6D72B925A34B5D356BDF8A27B36A6E2EAE9" >/dev/null
-            gpg --dearmor /tmp/sogo-nightly
-            mv /tmp/sogo-nightly.gpg /etc/apt/trusted.gpg.d/
-            rm -f /tmp/sogo-nightly
-
-            ECHO_INFO "Resynchronizing the package index files (apt update) ..."
-            ${APTGET} update
-
-        elif [ X"${DISTRO}" == X'OPENBSD' ]; then
-            ALL_PKGS="${ALL_PKGS} sogo memcached--"
-
-            [ X"${BACKEND}" == X'OPENLDAP' ] && ALL_PKGS="${ALL_PKGS} sope-mysql"
-            [ X"${BACKEND}" == X'MYSQL' ] && ALL_PKGS="${ALL_PKGS} sope-mysql"
-            [ X"${BACKEND}" == X'PGSQL' ] && ALL_PKGS="${ALL_PKGS} sope-postgres"
-
-            PKG_SCRIPTS="${PKG_SCRIPTS} ${MEMCACHED_RC_SCRIPT_NAME} ${SOGO_RC_SCRIPT_NAME}"
-        fi
-    fi
-
     # iRedAPD. Requires Python-3.
     # Don't append service name 'iredapd' to ${ENABLED_SERVICES} since we don't
     # have RC script ready in this stage.
@@ -522,28 +452,6 @@ EOF
             # No port for fail2ban. Install from source tarball with pip later.
             # rc script will be generated from sample file later.
             ALL_PKGS="${ALL_PKGS} py3-pip geolite2-country geolite2-city"
-        fi
-    fi
-
-    # netdata
-    # Note: netdata installer will generate rc/systemd script and enable the
-    #       service automatically.
-    if [ X"${USE_NETDATA}" == X'YES' ]; then
-        if [ X"${DISTRO}" == X'RHEL' ]; then
-            ALL_PKGS="${ALL_PKGS} curl libmnl libuuid lm_sensors nc zlib iproute"
-
-            ALL_PKGS="${ALL_PKGS} python3-pyyaml"
-        elif [ X"${DISTRO}" == X'DEBIAN' -o X"${DISTRO}" == X'UBUNTU' ]; then
-            ALL_PKGS="${ALL_PKGS} zlib1g libuuid1 libmnl0 curl lm-sensors"
-
-            if [ X"${DISTRO_CODENAME}" == X'bookworm' ]; then
-                ALL_PKGS="${ALL_PKGS} netcat-openbsd"
-            else
-                ALL_PKGS="${ALL_PKGS} netcat"
-            fi
-        elif [ X"${DISTRO}" == X'OPENBSD' ]; then
-            # netdata doesn't work on OpenBSD
-            :
         fi
     fi
 

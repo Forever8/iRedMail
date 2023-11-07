@@ -274,7 +274,6 @@ def ldif_mailuser(domain, username, passwd, cn, quota, groups=''):
                            'sieve', 'sievesecured', 'sievetls',
                            'deliver', 'lda', 'lmtp', 'forward',
                            'senderbcc', 'recipientbcc',
-                           'sogo', 'sogowebmail', 'sogocalendar', 'sogoactivesync',
                            'shadowaddress',
                            'displayedInGlobalAddressBook'],
         'memberOfGroup': groups,

@@ -126,7 +126,6 @@ fail2ban_config() {
     perl -pi -e 's#PH_NGINX_LOG_ERRORLOG#$ENV{NGINX_LOG_ERRORLOG}#' ${FAIL2BAN_JAIL_CONF_DIR}/*.local
     perl -pi -e 's#PH_RCM_LOGFILE#$ENV{RCM_LOGFILE}#' ${FAIL2BAN_JAIL_CONF_DIR}/*.local
     perl -pi -e 's#PH_MAILLOG#$ENV{MAILLOG}#' ${FAIL2BAN_JAIL_CONF_DIR}/*.local
-    perl -pi -e 's#PH_SOGO_LOG_FILE#$ENV{SOGO_LOG_FILE}#' ${FAIL2BAN_JAIL_CONF_DIR}/*.local
     perl -pi -e 's#PH_DOVECOT_LOG_FILE#$ENV{DOVECOT_LOG_DIR}/*.log#' ${FAIL2BAN_JAIL_CONF_DIR}/*.local
     perl -pi -e 's#PH_FAIL2BAN_DISABLED_SERVICES#$ENV{FAIL2BAN_DISABLED_SERVICES}#' ${FAIL2BAN_JAIL_CONF_DIR}/*.local
 
@@ -138,7 +137,6 @@ fail2ban_config() {
     # Enable jail for optional components.
     [ X"${WEB_SERVER}" == X'NGINX' ]    && _enable_jail nginx-http-auth.local
     [ X"${USE_ROUNDCUBE}" == X'YES' ]   && _enable_jail roundcube.local
-    [ X"${USE_SOGO}" == X'YES' ]        && _enable_jail sogo.local
 
     if [ X"${DISTRO}" == X'OPENBSD' ]; then
         # Copy rc script and enable service.
